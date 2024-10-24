@@ -11,6 +11,7 @@ import java.net.URL;
 import java.awt.*;
 import java.util.*;
 import javax.swing.Timer;
+import javax.swing.border.LineBorder;
 
 public class MatchTiles implements ActionListener {
     JFrame frame;
@@ -28,6 +29,7 @@ public class MatchTiles implements ActionListener {
 
     // Array to hold image icons for the tiles
     ImageIcon[] tileImages = new ImageIcon[10];
+    ImageIcon woodBack = new ImageIcon("images/woodBack.png");
 
     public static void main(String[] args) {
         new MatchTiles();
@@ -105,13 +107,14 @@ public class MatchTiles implements ActionListener {
             tiles[i].setIcon(tileImages[numbers.get(i)]); // Set the shuffled image
             tiles[i].setFont(new Font("Serif", Font.BOLD, 44));
             tiles[i].setBackground(Color.WHITE);
+            tiles[i].setBorder(new LineBorder(Color.BLACK, 3));
             buttonPanel.add(tiles[i]); // Add buttons to the panel
         }
 
         Timer timer = new Timer(3000, e -> {
             // Clear the icons after 3 seconds (hide the images)
             for (int i = 0; i < 20; i++) {
-                tiles[i].setIcon(null);
+                tiles[i].setIcon(woodBack);
             }
 
             // Add action listeners to the buttons
@@ -144,6 +147,12 @@ public class MatchTiles implements ActionListener {
                                 isATileSelected = false;
                                 indexOfSelectedTile = -1;
                                 noOfMatchedTiles += 2; // Increase matched tile count
+                                if (noOfMatchedTiles == 20) {
+                                    for (JButton tile : tiles) {
+                                        tile.setEnabled(false);
+                                    }
+                                    JOptionPane.showMessageDialog(frame, "Congratulations! All tiles matched!");
+                                }
                             } else {
                                 // Mismatched case
                                 for (JButton tile : tiles) {
@@ -152,8 +161,8 @@ public class MatchTiles implements ActionListener {
 
                                 Timer timer = new Timer(800, new ActionListener() {
                                     public void actionPerformed(ActionEvent evt) {
-                                        tiles[buttonIndex].setIcon(null); // Hide image on second tile
-                                        tiles[indexOfSelectedTile].setIcon(null); // Hide image on first tile
+                                        tiles[buttonIndex].setIcon(woodBack); // Hide image on second tile
+                                        tiles[indexOfSelectedTile].setIcon(woodBack); // Hide image on first tile
                                         isATileSelected = false;
                                         indexOfSelectedTile = -1;
 
