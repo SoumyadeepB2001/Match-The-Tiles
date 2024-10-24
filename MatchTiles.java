@@ -1,5 +1,12 @@
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.awt.*;
 import java.util.*;
@@ -123,6 +130,9 @@ public class MatchTiles implements ActionListener {
         tiles[buttonIndex].addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
+
+                        playSound("audio/wood.wav");
+
                         if (isATileSelected) {
                             tiles[buttonIndex].setIcon(tileImages[numbers.get(buttonIndex)]); // Show image for second tile
                             removeActionListener(tiles[buttonIndex]);
@@ -167,6 +177,23 @@ public class MatchTiles implements ActionListener {
                         }
                     }
                 });
+    }
+
+    public void playSound(String soundFileName) {
+        try {
+            // Load the sound file
+            File soundFile = new File(soundFileName);
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundFile);
+
+            // Get a clip resource
+            Clip clip = AudioSystem.getClip();
+
+            // Open the audio stream and start playing it
+            clip.open(audioStream);
+            clip.start();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
     }
 
     public void removeActionListener(JButton button) {
