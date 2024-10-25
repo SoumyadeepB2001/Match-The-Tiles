@@ -38,7 +38,7 @@ public class MatchTiles implements ActionListener {
     MatchTiles() {
         frame = new JFrame("Match The Tiles");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setResizable(true);
+        frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximize the window
         initComponents();
